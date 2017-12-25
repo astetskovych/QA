@@ -6,7 +6,7 @@ namespace QA.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
     }
 
@@ -49,7 +49,7 @@ namespace QA.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "Електронна пошта")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -73,7 +73,7 @@ namespace QA.Models
 
         [Required]
         [EmailAddress]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
         [Required]
@@ -83,8 +83,8 @@ namespace QA.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение пароля")]
-        [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
+        [Display(Name = "Підтвердження паролю")]
+        [Compare("Password", ErrorMessage = "Пароль і його підтвердження не співпадають.")]
         public string ConfirmPassword { get; set; }
     }
 

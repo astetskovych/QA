@@ -13,7 +13,7 @@ namespace QA.Controllers
     public class HomeController : Controller
     {
         private readonly IQuestionsProvider questionsProvider;
-        private Question q;
+
         public HomeController(IQuestionsProvider questionsProvider)
         {
             this.questionsProvider = questionsProvider;
@@ -27,7 +27,10 @@ namespace QA.Controllers
 
         public ActionResult AskQuestion()
         {
-            return View(new Question());
+            if(User.Identity.IsAuthenticated)
+                return View(new Question());
+            return View("Index");
+
         }
 
         [HttpPost]
@@ -48,7 +51,7 @@ namespace QA.Controllers
 
         public ActionResult AnswerTheQuestion()
         {
-            q = questionsProvider.GetQuestion();
+            Question q = questionsProvider.GetQuestion();
             Answer answer = new Answer();
             QuestionWithAnswer qa = new QuestionWithAnswer(q, answer);
             return View(qa);

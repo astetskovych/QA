@@ -24,8 +24,7 @@ namespace DAL.Providers
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 sqlConnection.Open();
-
-                question = sqlConnection.Query<Question>("SELECT * FROM Questions").First();
+                question = sqlConnection.Query<Question>("SELECT TOP 1 * FROM Questions ORDER BY NEWID()").First();
             }
 
             return question;
@@ -33,16 +32,24 @@ namespace DAL.Providers
 
         public IEnumerable<Question> GetTopQuestions(int amount)
         {
-            IEnumerable<Question> questions;
-            IEnumerable<Answer> answers;
+            List<Question> questions;
+            List<Answer> answers;
+            
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 sqlConnection.Open();
 
-                questions = sqlConnection.Query<Question>("SELECT * FROM Questions");
-                answers = sqlConnection.Query<Answer>("SELECT * FROM Answers");
+                questions = sqlConnection.Query<Question>("SELECT TOP 10 * FROM Questions ORDER BY Ranking DESC").ToList();
+
+                for (int i = 0; i < questions.Count; i++)
+                {
+                    answers = sqlConnection.Query<Answer>("SELECT TOP 10 * FROM Answers WHERE QuestionId = @Id ORDER BY Ranking DESC", questions[i]).ToList();
+                    questions[i].Answers = new List<Answer>(amount);
+                        questions[i].Answers.AddRange(answers);
+                }
             }
 
+            /*
             Answer[] a = answers.ToArray();
             Question[] q = questions.ToArray();
 
@@ -61,7 +68,8 @@ namespace DAL.Providers
                     }
                 }
             }
-            return q;
+            */
+            return questions;
         }
 
         public void SaveAnswer(Answer answer)

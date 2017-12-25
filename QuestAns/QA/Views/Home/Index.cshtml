@@ -6,37 +6,47 @@
 
 <div class="jumbotron">
     <h1>QA</h1>
-    <p class="lead">Для того щоб задавати запитання і отримувати відповіді потрібно зареєструватися</p>
-    @Html.ActionLink("Реєстрація", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
 </div>
 
+@if (Model != null)
+{
 <div class="row">
     <div>
         <h2>Популярні запитання і відповіді</h2>
-        <p>
             <table class="table">
                 <tr>
-                    <th></th>
+     
+                        <th>Запитання</th>
+                        <th>Рейтинг</th>
+                        <th>Кращі відповіді</th>
+ 
                 </tr>
 
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>@item.Text</td>
-                        <td>@item.UserId</td>
                         <td>@item.Ranking</td>
                         <td>
                             @foreach (var answer in item.Answers)
                             {
-                <p>@answer.Text</p>
+                                <span>@answer.Text</span>
+                                <span>@answer.Ranking</span>
                             <br>
                             }
-                            </td>
-                            </tr>
+                        </td>
+                    </tr>
                 }
 
-                </table>
-                </p>
-                <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-            </div>
-        </div>
+        </table>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+</div>
+}
+else
+{
+    <div class="jumbotron">
+        <p class="lead">Для того щоб задавати запитання і отримувати відповіді потрібно зареєструватися</p>
+        @Html.ActionLink("Реєстрація", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+    </div>
+}
