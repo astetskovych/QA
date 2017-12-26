@@ -90,5 +90,17 @@ namespace DAL.Providers
                 sqlConnection.Query("INSERT INTO Questions(Text, UserId) VALUES(@Text, @UserId)", question);
             }
         }
+
+        public double GetUserRanking(string id)
+        {
+            double ranking;
+            using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                sqlConnection.Open();
+                ranking = sqlConnection.Query<double>("SELECT Ranking FROM ASPNetUsers WHERE Id = @UserId", new { UserId = id}).First();
+            }
+            return ranking;
+        }
+
     }
 }

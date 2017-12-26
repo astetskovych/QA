@@ -27,9 +27,15 @@ namespace QA.Controllers
 
         public ActionResult AskQuestion()
         {
-            if(User.Identity.IsAuthenticated)
-                return View(new Question());
+            if (User.Identity.IsAuthenticated)
+            {
+                if(questionsProvider.GetUserRanking(User.Identity.GetUserId()) >= 0)
+                    return View(new Question());
+                else
+                    return RedirectToAction("Index");//temp
+            }
             return View("Index");
+           
 
         }
 

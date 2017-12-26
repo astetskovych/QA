@@ -14,5 +14,6 @@ namespace Common.Interfaces
         Answer GetAnswer();
         void SaveQuestion(Question question);
         void SaveAnswer(Answer answer);
+        double GetUserRanking(string id);
     }
 }
