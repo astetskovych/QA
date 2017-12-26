@@ -70,6 +70,7 @@ namespace QA.Controllers
             answer.QuestionId = qa.Q.Id;
             answer.UserId = User.Identity.GetUserId();
             questionsProvider.SaveAnswer(answer);
+            questionsProvider.AddQuestionMark(qa.Q.UserId ,qa.Q.Id, (int)qa.Q.Ranking);
 
             return View("Index", questionsProvider.GetTopQuestions(5));
         }

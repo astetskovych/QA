@@ -15,5 +15,6 @@ namespace Common.Interfaces
         void SaveQuestion(Question question);
         void SaveAnswer(Answer answer);
         double GetUserRanking(string id);
+        void AddQuestionMark(string userId, int questionId, int mark);
     }
 }

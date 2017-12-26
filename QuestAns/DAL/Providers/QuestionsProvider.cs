@@ -102,5 +102,23 @@ namespace DAL.Providers
             return ranking;
         }
 
+        public void AddQuestionMark(string userId, int questionId, int mark)
+        {
+            //int numOfAnswers;
+
+            /*
+            using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                numOfAnswers = sqlConnection.Query<int>("SELECT COUNT(*) FROM Answers WHERE QuestionId = @QuestId", new { QuestId = id }).First();
+            }
+            */
+
+            using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                sqlConnection.Query("UPDATE Questions SET Ranking = Ranking + @Mrk WHERE Id = @QuestId", new { QuestId = questionId, Mrk = mark });
+                sqlConnection.Query("UPDATE ASPNetUsers SET Ranking = Ranking + @Mrk WHERE Id = @UserId", new { UserId = userId, Mrk = mark });
+            }
+        }
+
     }
 }
